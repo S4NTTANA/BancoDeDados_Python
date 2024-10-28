@@ -11,7 +11,7 @@ class UsuarioService:
 
             novo_usuario = self.repository.pesquisar_usuario_por_email(usuario.email)
             
-            if not novo_usuario:
+            if novo_usuario:
                 print("Usuario já cadastrado!")
                 return
 
@@ -22,5 +22,5 @@ class UsuarioService:
         except Exception as erro:
             print(f"Ocorreu um erro inesperado: {erro}")
 
-def listar_todos_usuarios(self):
-    return self.repository.listar_usuarios()
+    def listar_todos_usuarios(self):
+        return self.repository.listar_usuarios()
