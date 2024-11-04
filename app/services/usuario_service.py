@@ -24,3 +24,23 @@ class UsuarioService:
 
     def listar_todos_usuarios(self):
         return self.repository.listar_usuarios()
+    
+    def atualizar_usuario(self, usuario: Usuario):
+
+        try:
+            id = int(input("\nInforme o id do usuário que deseja procurar: "))
+            usuario = self.repository.session.query(Usuario).filter_by(id = id).first()
+
+            if usuario:
+                    usuario.nome = input("Digite o e-mail do aluno que será atualizado: ")
+                    usuario.email = input("Digite o e-mail do aluno que será atualizado: ")
+                    usuario.senha = input("Digite o e-mail do aluno que será atualizado: ")
+                    self.repository.atualizar_usuario(usuario)
+            else:
+                print("Usuário não encontrado!") 
+            
+        except TypeError as erro:
+            print("erro ao deletar ususario")
+
+        self.session.commit(usuario)
+        self.session.refresh(usuario)
