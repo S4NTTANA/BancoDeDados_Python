@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import declarative_base
-from config.database import db
+from app.config.database import db
 
 Base = declarative_base()
 
@@ -15,6 +15,12 @@ class Usuario(Base):
 
     # Definindo características da classe
     def __init__(self, nome:str, email:str, senha:str):
+        if not isinstance(nome, str):
+            raise TypeError("O nome deve ser um texto !")
+        if not isinstance(email, str):
+            raise TypeError("O email deve ser um texto !")
+        if not isinstance(senha, str):
+            raise TypeError("A senha deve ser um texto !")
         self.nome = nome
         self.email = email
         self.senha = senha
