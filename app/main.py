@@ -11,13 +11,13 @@ def main():
     service = UsuarioService(repository)
 
     while True:
-        
-         print("1 - Adcionar usuário")
-         print("2 - Pesquisar um usuario")
-         print("3 - Atualizar dados de um usuário")
-         print("4 - Excluir um usuário")
-         print("5 - Exibir todos os usuarios cadastrados") 
-         print("0 - Sair")
+         print ("\n===== Tabelha de Opções =====")
+         print("""    1 - Adcionar usuário
+    2 - Pesquisar um usuario
+    3 - Atualizar dados de um usuário
+    4 - Excluir um usuário
+    5 - Exibir todos os usuarios cadastrados 
+    0 - Sair""")
 
          opcao = int(input("\nInforme a opção desejada: "))
 
@@ -32,23 +32,14 @@ def main():
                 service.criar_usuario(nome=nome, email=email, senha=senha)
 
             case 2:
-                try:
-                    id = int(input("\nInforme o id do usuário que deseja procurar: "))
-                    usuario = repository.session.query(Usuario).filter_by(id = id).first()
-                    if usuario:
-                        print(f"\nID: {usuario.id} \nNome: {usuario.nome} \nEmail: {usuario.email} \nSenha: {usuario.senha}")
-                    return
-                except TypeError as erro:
-                    print("erro ao deletar ususario")
-
+                print("\n=== Pesquisando usuário por id ===")
+                service.pesquisar_usuario_por_id()
+                
             case 3:
-                    print ("Atualizando dados do aluno.")
-                    service.atualizar_usuario(Usuario)
+                print ("Atualizando dados do usuário.")
+                service.atualizar_usuario()
             case 4:
-                repository.excluir_usuario(usuario)
-                session.delete(usuario)
-                session.commit()
-                session.refresh(usuario)
+                service.excluir_usuario()
                 break
                 
             case 5:
@@ -56,14 +47,16 @@ def main():
                 print("\nListando usuarios cadastrados.")
                 lista_usuarios = service.listar_todos_usuarios()
                 for usuario in lista_usuarios:
-                    print(f"\nNome: {usuario.nome} - \nEmail: {usuario.email} - \nSenha: {usuario.senha}")
-                
+                    print(f"\n  Usuario {usuario.id}  \nNome: {usuario.nome}  \nEmail: {usuario.email}  \nSenha: {usuario.senha}")
+
+            case 0:
+                 print("Saindo do banco de dados.")
+                 break    
+             
+            case _:
+                 print("Opção inválida")
           
                  
-            
-
-
-
 if __name__ == "__main__":
     os.system("cls || clear")
     main()
