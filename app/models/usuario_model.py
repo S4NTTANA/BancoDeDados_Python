@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import declarative_base, sessionmaker
-from config.database import db
+from app.config.database import db
 
 Base = declarative_base()
 
@@ -44,15 +44,10 @@ def reordenar_ids():
             session.add(usuario)  # Adiciona o objeto atualizado à sessão
             session.commit()
             session.refresh(usuario)
-
-        # Confirma as alterações no banco de dados
     
     except Exception as e:
-        session.rollback()  # Reverte em caso de erro
+        session.rollback() 
         print(f"Ocorreu um erro: {e}")
     
     finally:
-        session.close()  # Fecha a sessão
-
-# Se desejar, você pode chamar a função reordenar_ids() aqui ou em outro lugar em seu código.
-# reordenar_ids()
+        session.close()  

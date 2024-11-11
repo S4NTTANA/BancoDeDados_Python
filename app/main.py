@@ -1,9 +1,13 @@
+import os
+import sys 
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from services.usuario_service import UsuarioService
 from repositories.usuario_repositories import UsuarioRepository
-from config.database import Session
-from models.usuario_model import Usuario, reordenar_ids
+from app.config.database import Session
+from app.models.usuario_model import Usuario, reordenar_ids
 
-import os
 
 def main():
     session = Session()
