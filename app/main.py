@@ -1,7 +1,7 @@
 from services.usuario_service import UsuarioService
 from repositories.usuario_repositories import UsuarioRepository
 from config.database import Session
-from models.usuario_model import Usuario
+from models.usuario_model import Usuario, reordenar_ids
 
 import os
 
@@ -10,18 +10,20 @@ def main():
     repository = UsuarioRepository(session)
     service = UsuarioService(repository)
 
+
     while True:
-         print ("\n===== Tabelha de Opções =====")
-         print("""    1 - Adcionar usuário
+        reordenar_ids()
+        print ("\n===== Tabelha de Opções =====")
+        print("""    1 - Adcionar usuário
     2 - Pesquisar um usuario
     3 - Atualizar dados de um usuário
     4 - Excluir um usuário
     5 - Exibir todos os usuarios cadastrados 
     0 - Sair""")
 
-         opcao = int(input("\nInforme a opção desejada: "))
+        opcao = int(input("\nInforme a opção desejada: "))
 
-         match (opcao):
+        match (opcao):
             case 1:
                 # Solicitando dados para o usuário.
                 print("\nAdicionando usuário.")
@@ -40,7 +42,6 @@ def main():
                 service.atualizar_usuario()
             case 4:
                 service.excluir_usuario()
-                break
                 
             case 5:
                 # Listar todos os usuário cadastrados.

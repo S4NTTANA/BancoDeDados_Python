@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.orm import declarative_base
-from app.config.database import db
+from sqlalchemy.orm import declarative_base, sessionmaker
+from config.database import db
 
 Base = declarative_base()
 
@@ -27,3 +27,32 @@ class Usuario(Base):
 
 # Criando tabela no banco de dados.
 Base.metadata.create_all(bind=db)
+
+# Função para reordenar IDs
+def reordenar_ids():
+    # Criando uma sessão
+    Session = sessionmaker(bind=db)
+    session = Session()
+
+    try:
+        # Obtendo todos os usuários ordenados pelo ID
+        usuarios = session.query(Usuario).order_by(Usuario.id).all()
+
+        # Atualizando os IDs
+        for novo_id, usuario in enumerate(usuarios, start=1):
+            usuario.id = novo_id  # Atribui o novo ID
+            session.add(usuario)  # Adiciona o objeto atualizado à sessão
+            session.commit()
+            session.refresh(usuario)
+
+        # Confirma as alterações no banco de dados
+    
+    except Exception as e:
+        session.rollback()  # Reverte em caso de erro
+        print(f"Ocorreu um erro: {e}")
+    
+    finally:
+        session.close()  # Fecha a sessão
+
+# Se desejar, você pode chamar a função reordenar_ids() aqui ou em outro lugar em seu código.
+# reordenar_ids()
