@@ -1,30 +1,33 @@
-import sys
 import pytest
 from app.models.usuario_model import Usuario
 from app.config.database import db
+import os 
 
-@pytest.fixture
-def usuario_valido():
-    usuario = Usuario("Marta", "marta@gmail.com", "12345")
-    return usuario
+os.system("cls||clear")
 
-def test_valida_nome(usuario_valido):
-    assert usuario_valido.nome == "Marta"
+import pytest
+from app.models.usuario_model import Usuario
 
-def test_valida_email(usuario_valido):
-    assert usuario_valido.email == "marta@gmail.com"
+def test_usuario_nome_vazio_retorna_mensagem_erro():
+    with pytest.raises(ValueError, match="O que está sendo solicitado está vazio."):
+        Usuario("", "maria123@gmail.com", "12345")
 
-def test_valida_senha(usuario_valido):
-    assert usuario_valido.senha == "12345"
+def test_usuario_nome_invalido_erro():
+    with pytest.raises(TypeError, match="O que está sendo solicitado está inválido."):
+        Usuario(000, "maria123@gmail.com", "12345") 
 
-def test_invalida_nome():
-    with pytest.raises(TypeError, match="O nome deve ser um texto !"):
-        Usuario(999, "marta@gmail.com", "12345")
+def test_usuario_email_vazio_retorna_mensagem_erro():
+    with pytest.raises(ValueError, match="O que está sendo solicitado está vazio."):
+        Usuario("maria", "", "12345")
 
-def test_invalida_email():
-    with pytest.raises(TypeError, match="O email deve ser um texto !"):
-        Usuario("Marta", 12345, "12345")
+def test_usuario_email_invalido_erro():
+    with pytest.raises(TypeError, match="O que está sendo solicitado está inválido."):
+        Usuario("maria", 000, "12345")  
 
-def test_invalida_senha():
-    with pytest.raises(TypeError, match="A senha deve ser um texto !"):
-        Usuario("Marta", "marta@gmail.com", 12345)
+def test_usuario_senha_vazio_retorna_mensagem_erro():
+    with pytest.raises(ValueError, match="O que está sendo solicitado está vazio."):
+        Usuario("maria", "maria123@gmail.com", "")
+
+def test_usuario_senha_invalido_erro():
+    with pytest.raises(TypeError, match="O que está sendo solicitado está inválido."):
+        Usuario("maria", "maria123@gmail.com", 12345)  
